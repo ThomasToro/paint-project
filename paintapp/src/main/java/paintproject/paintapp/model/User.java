@@ -42,6 +42,10 @@ public class User {
 
     }
 
+    public Long getId() {
+        return this.id;
+    }
+
     public void setNombre(String nuevoNombre){
     this.nombre= nuevoNombre;
 

@@ -16,10 +16,10 @@ public class JwtUtil {
     private final String SECRET = "ESTA_ES_MI_SUPER_CLAVE_SEGURA_32_CHARS";
     private final long EXPIRATION_TIME = 1000 * 60 * 60 * 6; // 6 horas
 
-    // 1. (NUEVO) Creamos una llave segura y reutilizable a partir del String
+    // 1. Creamos una llave segura y reutilizable a partir del String
     private final Key key;
 
-    // 2. (NUEVO) Creamos un parser reutilizable para esta llave
+    // 2.Creamos un parser reutilizable para esta llave
     private final JwtParser parser;
 
     // Constructor para inicializar la llave y el parser una sola vez
@@ -47,8 +47,7 @@ public class JwtUtil {
         try {
             return !getClaims(token).getExpiration().before(new Date());
         } catch (Exception e) {
-            // En un caso real, aquí deberías loggear la excepción (e.g., token malformado, expirado, etc.)
-            // log.warn("Invalid JWT: {}", e.getMessage());
+            
             return false;
         }
     }

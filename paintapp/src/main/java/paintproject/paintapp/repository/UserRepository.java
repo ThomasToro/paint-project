@@ -41,4 +41,18 @@ public class UserRepository {
 
     }
     
+    // Devuelve el id del usuario con el email dado, o null si no existe
+    public Long obtenerUserIdPorEmail(String email) {
+        String sql = "SELECT id FROM usuarios WHERE email = ? LIMIT 1";
+        // Usamos query para evitar que se lance una excepción si no hay filas
+        return jdbc.query(sql, rs -> {
+            if (rs.next()) {
+                long id = rs.getLong("id");
+                // Si la columna id puede ser NULL en la BD, comprobamos wasNull
+                return rs.wasNull() ? null : id;
+            }
+            return null;
+        }, email);
+    }
+    
 }
