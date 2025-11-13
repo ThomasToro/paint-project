@@ -8,6 +8,7 @@ import paintproject.paintapp.model.Drawing;
 import paintproject.paintapp.service.PaintService;
 import paintproject.paintapp.security.JwtService;
 
+import java.io.Console;
 import java.util.List;
 
 @RestController
@@ -36,7 +37,6 @@ public class PaintController {
                 dibujo.setUserId(userId);
                 paintService.guardarDibujo(dibujo);
 
-                System.out.println(dibujo+"controladorrrr");
 
                 return ResponseEntity.ok("Dibujo guardado correctamente");
             } catch (Exception e) {
@@ -96,7 +96,13 @@ public class PaintController {
     ) {
         try {
             String token = authHeader.replace("Bearer ", "");
-            Long userId = jwtService.extraerUserId(token);
+            String email = jwtService.extraerEmail(token); //  aquí extraemos el email
+            Long userId = paintService.obtenerUserIdPorEmail(email); //  buscamos en BD
+
+            System.out.println("TOKEN DE AUTH"+token);
+            System.out.println("ID DEL DUEÑO"+userId);
+            System.out.println("ID DEL DIBUJO"+id);
+            
 
             Drawing existente = paintService.obtenerDibujoPorId(id);
             if (existente == null || !existente.getUserId().equals(userId)) {

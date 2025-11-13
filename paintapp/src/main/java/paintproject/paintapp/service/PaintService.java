@@ -19,7 +19,6 @@ public class PaintService {
 
     public void guardarDibujo(Drawing dibujo) {
         drawingRepository.save(dibujo);
-        System.out.println(dibujo);
     }
 
     public List<Drawing> obtenerDibujosPorUsuario(Long userId) {

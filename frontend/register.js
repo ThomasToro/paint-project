@@ -14,6 +14,10 @@ document.getElementById("registerForm").addEventListener("submit",e=>{
         },
         body: JSON.stringify(data)
 
-    }).then(res=> res.ok? alert("Registro exitoso") : alert("Ups, algo salió mal")).catch(err=> console.log(err));
+    }).then(res=> res.ok? alert("Registro exitoso") : alert("Ups, algo salió mal")).then(msg=>{
+    alert(msg+"\nAhora inicia sesión");
+    window.location.href="login.html";
 
+}).catch(err=> console.log(err));
+    
 })
