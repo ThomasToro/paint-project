@@ -64,6 +64,28 @@ public class PaintController {
             }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminarDibujo(@RequestHeader("Authorization") String authHeader, @PathVariable Long id){ //pathvariable porque no es algo que se mande por body sino que está directamente en la url
+        try {
+            String token= authHeader.replace("Bearer","");
+            String email= jwtService.extraerEmail(token);
+            Long user_id= paintService.obtenerUserIdPorEmail(email);
+
+            if (user_id==null) {
+                return ResponseEntity.badRequest().body("Usuario no encontrado");
+                
+            }
+            System.out.println("id del usuario"+user_id);
+            System.out.println("Id del dibujo:"+id);
+
+            paintService.eliminarDibujo(user_id, id);
+            return ResponseEntity.ok("Dibujo correctamente eliminado");
+            
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error al eliminar el dibujo: " + e.getMessage());
+        }
+    }
+
 
 
     @GetMapping("/{id}")

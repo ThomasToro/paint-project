@@ -21,9 +21,16 @@ public class DrawingRepository {
         this.jdbc = jdbc;
     }
 
+
     public void save(Drawing dibujo) {
         String sql = "INSERT INTO drawings (title, vector_data, background_image_path, user_id) VALUES (?, ?, ?, ?)";
         jdbc.update(sql, dibujo.getTitle(), dibujo.getVectorData(), dibujo.getBackgroundImagePath(), dibujo.getUserId());
+    }
+
+    //------------------------ LO ACABO DE AÑADIR
+    public void delete(Long userId, Long drawingId){
+        String sql= "DELETE FROM drawings WHERE user_id = ? AND id = ?";
+        jdbc.update(sql, userId, drawingId);
     }
 
     public List<Drawing> findByUserId(Long userId) {
@@ -41,7 +48,7 @@ public class DrawingRepository {
         return d;
     }
 
-   public Long obtenerUserIdPorEmail(String email) {
+    public Long obtenerUserIdPorEmail(String email) {
         var user = userRepository.findByEmail(email);
         return user != null ? user.getId() : null;
     }

@@ -28,41 +28,50 @@ fetch("http://localhost:8080/api/dibujos", {
     dibujos.forEach(d => {
       const card = document.createElement("div");
       card.classList.add("drawing-card");
-      card.dataset.id = d.id; //Guarda el ID como atributo
+      card.dataset.id = d.id;
 
-
-      // Crear el CONTENEDOR (el div)
+      //Contenedor fondo ----
       const previewContainer = document.createElement("div");
       previewContainer.classList.add("drawing-preview");
 
-      //Aplicar el fondo AL CONTENEDOR (si existe)
       if (d.backgroundImagePath) {
         previewContainer.style.backgroundImage = `url(${d.backgroundImagePath})`;
       }
 
-      //Crear la IMAGEN (los dibujos transparentes)
+      //Imagen del dibujo ----
       const previewImg = document.createElement("img");
-      previewImg.classList.add("drawing-preview-img"); // La nueva clase CSS
+      previewImg.classList.add("drawing-preview-img");
       previewImg.alt = d.title;
-      previewImg.src = d.vectorData || "placeholder.png"; 
-
-      // 4. Poner la IMAGEN DENTRO del CONTENEDOR
+      previewImg.src = d.vectorData || "placeholder.png";
       previewContainer.appendChild(previewImg);
-      
 
-      // Título del dibujo
+      //ítulo ----
       const title = document.createElement("div");
       title.classList.add("drawing-title");
       title.textContent = d.title || "(Sin título)";
 
-      // Ensamblar tarjeta (Añadimos el CONTENEDOR, no la imagen directamente)
-      card.appendChild(previewContainer); 
-      card.appendChild(title);
+      // Botón eliminar ----
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "Eliminar";
+      deleteBtn.classList.add("delete-btn");
 
-      // Al hacer clic, guardar idy abrir canvas
+      //Evitar que el clic del botón abra el dibujo
+      deleteBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+
+        if (confirm(`¿Seguro que quieres eliminar "${d.title}"?`)) {
+          eliminarDibujo(d.id, card);
+        }
+      });
+
+      // ---- Ensamblar tarjeta ----
+      card.appendChild(title);
+      card.appendChild(previewContainer);
+      card.appendChild(deleteBtn);
+
+      // ---- Click para abrir el dibujo ----
       card.addEventListener("click", () => {
         localStorage.setItem("drawingId", d.id);
-        console.log(" Dibujo seleccionado:", d.id);
         window.location.href = "canvas.html";
       });
 
@@ -70,9 +79,35 @@ fetch("http://localhost:8080/api/dibujos", {
     });
   })
   .catch(err => {
-    console.error(" Error al cargar dibujos:", err);
+    console.error("Error al cargar dibujos:", err);
     container.innerHTML = "<p>Error al cargar tus dibujos.</p>";
   });
+
+
+// --------------------------------------------
+// Función para eliminar dibujo
+// --------------------------------------------
+function eliminarDibujo(id, cardElement) {
+  fetch(`http://localhost:8080/api/dibujos/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Authorization": "Bearer " + token
+    }
+  })
+    .then(res => {
+      if (!res.ok) throw new Error("No se pudo eliminar el dibujo");
+
+      // Quitar visualmente la tarjeta eliminada
+      cardElement.remove();
+
+      alert("Dibujo eliminado correctamente");
+    })
+    .catch(err => {
+      console.error("Error al eliminar dibujo:", err);
+      alert("Error al eliminar el dibujo");
+    });
+}
+
 
 // Nuevo dibujo
 document.getElementById("newDrawingBtn").addEventListener("click", () => {
@@ -80,7 +115,7 @@ document.getElementById("newDrawingBtn").addEventListener("click", () => {
   window.location.href = "canvas.html";
 });
 
-//Cerrar sesión
+// Cerrar sesión
 document.getElementById("logoutBtn").addEventListener("click", () => {
   localStorage.removeItem("token");
   localStorage.removeItem("drawingId");

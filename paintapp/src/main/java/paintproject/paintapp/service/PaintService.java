@@ -38,13 +38,13 @@ public class PaintService {
     return drawingRepository.obtenerUserIdPorEmail(email);
 }
 
+    public void eliminarDibujo(Long user_id,Long drawing_id) {
+        drawingRepository.delete(user_id, drawing_id);;
+}
 
 
     // public Drawing obtenerDibujo(Long id) {
     //     return drawingRepository.findById(id);
     // }
 
-    // public void eliminarDibujo(Long id) {
-    //     drawingRepository.delete(id);
-    // }
 }
