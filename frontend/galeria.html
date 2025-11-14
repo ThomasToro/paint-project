@@ -3,79 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>Mis Dibujos</title>
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    body {
-      font-family: sans-serif;
-      background: #f2f2f2;
-      margin: 0;
-      padding: 20px;
-    }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    #drawingsContainer {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
-    }
-    .drawing-card {
-      background: #fff;
-      border-radius: 10px;
-      padding: 15px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    .drawing-card:hover {
-      transform: scale(1.03);
-    }
-    .drawing-title {
-      font-weight: bold;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-    .drawing-preview {
-      width: 100%;
-      height: 180px;
-      background: #eee;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      color: #666;
-    }
-    button {
-      background-color: #3498db;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
-      margin-right: 10px;
-    }
-    button:hover {
-      background-color: #2980b9;
-    }
-  </style>
+  <link rel="stylesheet" href="galeria.css">
 </head>
 <body>
   <header>
-    <h2>🎨 Mis Dibujos</h2>
+    <h2>Mis Dibujos</h2>
     <div>
-      <button id="newDrawingBtn">➕ Nuevo Dibujo</button>
-      <button id="logoutBtn">🚪 Cerrar sesión</button>
+      <button id="newDrawingBtn">Nuevo Dibujo</button>
+      <button id="logoutBtn">Cerrar sesión</button>
     </div>
   </header>
 
   <div id="drawingsContainer">
-    <!-- Los dibujos aparecerán aquí -->
-  </div>
+    </div>
 
   <script src="galeria.js"></script>
 </body>

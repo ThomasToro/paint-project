@@ -7,7 +7,7 @@ if (!token) {
 
 const container = document.getElementById("drawingsContainer");
 
-// 🔄 Cargar los dibujos del usuario
+// Cargar los dibujos del usuario
 fetch("http://localhost:8080/api/dibujos", {
   method: "GET",
   headers: {
@@ -30,22 +30,36 @@ fetch("http://localhost:8080/api/dibujos", {
       card.classList.add("drawing-card");
       card.dataset.id = d.id; //Guarda el ID como atributo
 
-      // Miniatura del dibujo
-      const preview = document.createElement("img");
-      preview.classList.add("drawing-preview");
-      preview.alt = d.title;
-      preview.src = d.vectorData || "placeholder.png"; // Mostrar miniatura real o fallback
+
+      // Crear el CONTENEDOR (el div)
+      const previewContainer = document.createElement("div");
+      previewContainer.classList.add("drawing-preview");
+
+      //Aplicar el fondo AL CONTENEDOR (si existe)
+      if (d.backgroundImagePath) {
+        previewContainer.style.backgroundImage = `url(${d.backgroundImagePath})`;
+      }
+
+      //Crear la IMAGEN (los dibujos transparentes)
+      const previewImg = document.createElement("img");
+      previewImg.classList.add("drawing-preview-img"); // La nueva clase CSS
+      previewImg.alt = d.title;
+      previewImg.src = d.vectorData || "placeholder.png"; 
+
+      // 4. Poner la IMAGEN DENTRO del CONTENEDOR
+      previewContainer.appendChild(previewImg);
+      
 
       // Título del dibujo
       const title = document.createElement("div");
       title.classList.add("drawing-title");
       title.textContent = d.title || "(Sin título)";
 
-      // Ensamblar tarjeta
-      card.appendChild(preview);
+      // Ensamblar tarjeta (Añadimos el CONTENEDOR, no la imagen directamente)
+      card.appendChild(previewContainer); 
       card.appendChild(title);
 
-      // Al hacer clic → guardar ID y abrir canvas
+      // Al hacer clic, guardar idy abrir canvas
       card.addEventListener("click", () => {
         localStorage.setItem("drawingId", d.id);
         console.log(" Dibujo seleccionado:", d.id);
@@ -60,13 +74,13 @@ fetch("http://localhost:8080/api/dibujos", {
     container.innerHTML = "<p>Error al cargar tus dibujos.</p>";
   });
 
-// ➕ Nuevo dibujo
+// Nuevo dibujo
 document.getElementById("newDrawingBtn").addEventListener("click", () => {
   localStorage.removeItem("drawingId");
   window.location.href = "canvas.html";
 });
 
-// 🚪 Cerrar sesión
+//Cerrar sesión
 document.getElementById("logoutBtn").addEventListener("click", () => {
   localStorage.removeItem("token");
   localStorage.removeItem("drawingId");

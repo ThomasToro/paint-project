@@ -1,0 +1,72 @@
+body {
+    font-family: sans-serif;
+    background: #f2f2f2;
+    margin: 0;
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#drawingsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.drawing-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.drawing-card:hover {
+    transform: scale(1.03);
+    }
+
+.drawing-title {
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.drawing-preview { /* Este es AHORA el DIV contenedor */
+    width: 100%;
+    height: 180px;
+    background: #eee; /* Fondo gris de fallback */
+    border-radius: 8px;
+    position: relative; /* Para superponer la imagen */
+    overflow: hidden; /* Para que la imagen no se salga */
+    background-size: cover;
+    background-position: center;
+}
+
+.drawing-preview-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+button:hover {
+    background-color: #2980b9;
+}

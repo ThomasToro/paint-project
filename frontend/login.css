@@ -1,0 +1,105 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background-color: #f0f2f5; /* Fondo gris claro */
+    color: #333;
+    
+    /* Centra el formulario en la página */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* --- La Tarjeta del Formulario --- */
+.form-login {
+    background: #ffffff;
+    padding: 2.5rem; /* Espacio interno */
+    border-radius: 12px; /* Bordes redondeados */
+  
+    /* La sombra */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    
+    width: 100%;
+    max-width: 400px; /* Ancho máximo */
+}
+
+/* --- Grupos de Formulario (Email y Contraseña) --- */
+.form-email,
+.form-password {
+    display: flex;
+    flex-direction: column; /* Label encima del input */
+    margin-bottom: 1.5rem; /* Espacio entre campos */
+    }
+
+/* --- Etiquetas (Labels) --- */
+label {
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 0.5rem;
+}
+
+/* --- Campos de Entrada (Inputs) --- */
+input[type="email"],
+input[type="password"] { /* Aplicamos estilo al tipo password */
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s; /* Transición suave */
+}
+
+/* Efecto al hacer clic (focus) en un input */
+input[type="email"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-color: #007bff; /* Borde azul */
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.25); /* Aura azul */
+}
+
+/* --- Botón de Envío (Submit) --- */
+.form-submit input[type="submit"] {
+    width: 100%;
+    padding: 0.9rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #007bff; /* Color primario */
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.form-submit input[type="submit"]:hover {
+  background-color: #0056b3; /* Azul más oscuro */
+}
+
+.form-submit input[type="submit"]:active {
+  transform: scale(0.98); /* Efecto de clic */
+}
+
+/* --- Enlace de "Regístrate" --- */
+.login {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.login a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login a:hover {
+    text-decoration: underline;
+}

@@ -3,55 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Editor de Dibujo</title>
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background: #f2f2f2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    header {
-      background: #3498db;
-      color: white;
-      padding: 15px;
-      width: 100%;
-      text-align: center;
-    }
-
-    .toolbar {
-      margin: 10px;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    canvas {
-      border: 2px solid #333;
-      background: white;
-      cursor: crosshair;
-    }
-
-    button {
-      background-color: #3498db;
-      color: white;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #2980b9;
-    }
-  </style>
-</head>
+  <link rel="stylesheet" href="canvas.css">
+  </head>
 <body>
   <header>
-    <h2>🎨 Editor de dibujo</h2>
+    <h2>Editor de dibujo</h2>
   </header>
 
   <div class="toolbar">
@@ -61,9 +17,19 @@
       <option value="square">Cuadrado</option>
       <option value="circle">Círculo</option>
       <option value="ellipse">Elipse</option>
+      
+      <option value="polygon">Polígono</option>
+      <option value="star">Estrella</option>
+      <option value="pencil">Lápiz</option>
+      <option value="eraser">Borrador</option>
     </select>
 
     <input type="color" id="colorPicker" value="#000000" />
+    
+    <label for="lineWidth">Grosor:</label>
+    <input type="range" id="lineWidth" min="1" max="20" value="2"> <input type="file" id="backgroundInput" accept="image/*">
+    
+    <button id="setBackgroundBtn">Establecer fondo</button>
     <button id="clearBtn">Limpiar</button>
     <button id="saveBtn">Guardar</button>
     <button id="backBtn">Volver</button>
