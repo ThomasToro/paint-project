@@ -1,47 +1,178 @@
+* {
+  box-sizing: border-box; /* Es una buena práctica */
+  margin: 0;
+  padding: 0;
+}
 
 body {
-  margin: 0;
-  font-family: sans-serif;
+  
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",Roboto, Arial, sans-serif; 
   background: #f2f2f2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  /* Ya no centramos todo, el layout es más complejo */
 }
 
-header {
+/* --- 1. Barra Superior (Nuevo) --- */
+.top-bar {
+  
+  align-items: center;
+  padding: 15px 30px;
   background: #3498db;
   color: white;
-  padding: 15px;
-  width: 100%;
-  text-align: center;
-}
-
-.toolbar {
-  margin: 10px;
-  display: flex;
-  flex-wrap: wrap; 
-  justify-content: center;
-  gap: 10px;
-  align-items: center;
-}
-
-canvas {
-  border: 2px solid #333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
  
-  background: white; 
-  cursor: crosshair;
+
+}
+.top-bar-content{
+   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px; /* Centra el contenido */
+  margin: 0 auto;
+}
+
+.top-bar h2 {
+  margin: 0;
+  font-size: 2rem;
 }
 
 
-button {
-  background-color: #3498db;
-  color: white;
+.top-bar .nav-buttons button {
+  display: inline-flex; /* Permite alinear iconos y texto */
+  align-items: center;
+  gap: 8px; /* Espacio entre icono y texto */
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
   border: none;
-  padding: 8px 15px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+}
+
+
+
+.top-bar .nav-buttons button:hover {
+  background-color: #404040;
+  color: #ddd;
+  transform: translateY(-1px); /* Efecto de "levantar" */
+  box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+}
+
+.editor-container {
+  display: flex; /* ¡La clave del layout lateral! */
+  justify-content: center;
+  margin: 20px auto;
+  gap: 20px;
+  padding: 0 20px;
+}
+
+aside.toolbar {
+  width: 120px; /* Ancho de la barra lateral */
+  height: 600px; /* Misma altura que el canvas */
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+ul.tool-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid; /*Organiza los iconos en una cuadrícula */
+  grid-template-columns: 1fr 1fr; /*Dos columnas de iconos */
+  gap: 10px;
+}
+
+ul.tool-list li {
+  font-size: 24px; 
+  color: #555;
+  padding: 8px;
+  border-radius: 6px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+ul.tool-list li:hover {
+  background: #f0f0f0;
+  color: #000;
+}
+
+
+ul.tool-list li.active {
+  background: #3498db;
+  color: white;
+}
+
+.tool-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center; 
+}
+
+.tool-controls label {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+input[type="color"] {
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+  cursor: pointer;
+  /*quitar el borde feo en algunos navegadores */
+  background: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+/* Estilo para el 'círculo' de color */
+input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+input[type="color"]::-webkit-color-swatch { border-radius: 50%; border: 2px solid #eee; }
+
+input[type="range"] {
+  width: 100%; /* Ocupa todo el ancho de la barra */
+}
+
+.sidebar-btn {
+  width: 100%;
+  background-color: #eee;
+  color: #333;
+  border: none;
+  padding: 8px 0;
   border-radius: 6px;
   cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
 }
 
-button:hover {
-  background-color: #2980b9;
+.sidebar-btn:hover {
+  background-color: #ddd;
+}
+/*Esconde el input de archivo, lo activamos con el botón */
+#backgroundInput {
+  display: none;
+}
+
+
+canvas {
+  flex-shrink: 0;
+  border: none; /* Quitamos el borde, la sombra es mejor */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  background: white; 
+  cursor: crosshair;
 }

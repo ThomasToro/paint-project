@@ -4,20 +4,25 @@
   <meta charset="UTF-8">
   <title>Mis Dibujos</title>
   <link rel="stylesheet" href="galeria.css">
+    <link href='https://cdn.boxicons.com/3.0.3/fonts/basic/boxicons.min.css' rel='stylesheet'>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-  <header>
-    <h2>Mis Dibujos</h2>
-    <div>
-      <button id="newDrawingBtn">Nuevo Dibujo</button>
-      <button id="logoutBtn">Cerrar sesión</button>
+
+  <header class="gallery-header">
+    <div class="header-content">
+      <h2><i class='bxr  bx-palette bx-rotate-180 bx-flip-vertical'  style='color:#ffffff'  ></i>  Mis Dibujos</h2>
+      <div class="header-buttons">
+        <button id="newDrawingBtn"><i class='bx bx-plus'></i> Nuevo Dibujo</button>
+        <button id="logoutBtn" class="btn-secondary"><i class='bx bx-log-out'></i> Cerrar sesión</button>
+      </div>
     </div>
   </header>
 
-  <div id="drawingsContainer">
-    
-
-    </div>
+  <main class="gallery-container">
+    <div id="drawingsContainer">
+      </div>
+  </main>
 
   <script src="galeria.js"></script>
 </body>

@@ -1,5 +1,7 @@
 package paintproject.paintapp.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,11 +30,23 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody User user){
+    public ResponseEntity<String> login(@RequestBody User user){
+        System.out.println("entramos al controller");
+        System.out.println(user.getEmail()+user.getPassword());
         String token = authservice.login(user.getEmail(), user.getPassword());
-        if (token == null) return "CREDENCIALES INVALIDAS";
-        return token;
-    }
+        System.out.println(token);
+
+        if (token == null) {
+            //Devuelve 401 con mensaje
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Credenciales inválidas, vuelva a intentarlo");
+        }
+
+        //Devuelve 200 con token
+        return ResponseEntity.ok(token);
+}
+
     
 
     

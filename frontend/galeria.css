@@ -1,87 +1,164 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-    font-family: sans-serif;
-    background: #f2f2f2;
-    margin: 0;
-    padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  background: #f0f2f5; /*Un gris de fondo más suave */
+  color: #333;
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+
+.gallery-header {
+  background: #3498db;
+  padding: 15px 30px;
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky; /*Se queda fijo al hacer scroll */
+  top: 0;
+  z-index: 100;
 }
 
-#drawingsContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px; /*Centra el contenido */
+  margin: 0 auto;
 }
 
-.drawing-card {
-    background: #fff;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    cursor: pointer;
-    transition: transform 0.2s;
+.gallery-header h2 {
+  margin: 0;
+  font-size: 2rem;
+  color: white;
 }
 
-.drawing-card:hover {
-    transform: scale(1.03);
-    }
-
-.drawing-title {
-    font-weight: bold;
-    margin-top: 10px;
-    text-align: center;
-}
-
-.drawing-preview { /* Este es AHORA el DIV contenedor */
-    width: 100%;
-    height: 180px;
-    background: #eee; /* Fondo gris de fallback */
-    border-radius: 8px;
-    position: relative; /* Para superponer la imagen */
-    overflow: hidden; /* Para que la imagen no se salga */
-    background-size: cover;
-    background-position: center;
-}
-
-.drawing-preview-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+.header-buttons {
+  display: flex;
+  gap: 15px;
 }
 
 button {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-right: 10px;
+  display: inline-flex; /* Permite alinear iconos y texto */
+  align-items: center;
+  gap: 8px; /* Espacio entre icono y texto */
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: black;
 }
 
-button:hover {
-    background-color: #2980b9;
+/*Boton Primario Nuevo Dibujo */
+#newDrawingBtn {
+  background-color: white;
+  color: black;
 }
 
+#newDrawingBtn:hover {
+  background-color: #404040;
+  color: white;
+  transform: translateY(-1px); /* Efecto de "levantar" */
+  box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+}
+
+/*Boton Secundario Cerrar Sesión */
+.btn-secondary {
+  background-color: #ecf0f1;
+  color: #7f8c8d;
+  transform: translateY(-1px); /* Efecto de "levantar" */
+  box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+}
+
+.btn-secondary:hover {
+  background-color: #404040;
+  color: #ddd;
+}
+
+.gallery-container {
+  padding: 30px; /* El padding que estaba en el body, ahora está aquí */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#drawingsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px; /* Un poco más de espacio */
+}
+
+/*Tarjetas de Dibujo */
+.drawing-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden; /*Clave para que el preview no se salga */
+  
+  /*Usamos Flex para ordenar el contenido verticalmente */
+  display: flex;
+  flex-direction: column;
+}
+
+.drawing-card:hover {
+  transform: translateY(-5px); /*Efecto de flotar  pronunciado*/
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/*Título de la Tarjeta*/
+.drawing-title {
+  font-weight: 600;
+  font-size: 1.8rem;
+  color: #333;
+  text-align: center;
+  padding: 15px 15px 10px 15px; /* Espaciado interno */
+}
+
+/*Previsualización del Dibujo*/
+.drawing-preview {
+  width: 100%;
+  height: 200px; /* Un poco más alto */
+  background: #eee;
+  position: relative;
+  overflow: hidden;
+  
+  /* Un borde sutil que lo separa del título */
+  border-top: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
+
+  /* Mantenemos tus reglas de fondo */
+  background-size: cover;
+  background-position: center;
+}
+
+.drawing-preview-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Botón de Eliminar*/
 .delete-btn {
-    background-color: #c0392b;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    margin-top: 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
+  background-color: #f6f6f6;
+  color: #e74c3c;
+  width: 100%; /* Ocupa todo el ancho */
+  border-radius: 0 0 12px 12px; /* Redondeado solo abajo */
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: auto; /* Se empuja al fondo de la tarjeta (si flex lo permite) */
 }
 
 .delete-btn:hover {
-    background-color: #e74c3c;
+  background-color: #e74c3c;
+  color: white;
 }

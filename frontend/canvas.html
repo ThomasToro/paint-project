@@ -4,39 +4,56 @@
   <meta charset="UTF-8">
   <title>Editor de Dibujo</title>
   <link rel="stylesheet" href="canvas.css">
+  <link href='https://cdn.boxicons.com/3.0.3/fonts/basic/boxicons.min.css' rel='stylesheet'>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+
   </head>
 <body>
-  <header>
-    <h2>Editor de dibujo</h2>
-  </header>
-
-  <div class="toolbar">
-    <select id="tool">
-      <option value="line">Línea</option>
-      <option value="rect">Rectángulo</option>
-      <option value="square">Cuadrado</option>
-      <option value="circle">Círculo</option>
-      <option value="ellipse">Elipse</option>
-      
-      <option value="polygon">Polígono</option>
-      <option value="star">Estrella</option>
-      <option value="pencil">Lápiz</option>
-      <option value="eraser">Borrador</option>
-    </select>
-
-    <input type="color" id="colorPicker" value="#000000" />
+  
+  <div class="top-bar">
+    <div class="top-bar-content">
+      <h2><i class='bxr  bx-palette bx-rotate-180 bx-flip-vertical'  style='color:#ffffff'  ></i>  Editor de dibujo</h2>
+    <div class="nav-buttons">
+      <button id="saveBtn"><i class='bxr  bx-save'   ></i> Guardar</button>
+      <button id="backBtn"><i class='bxr  bx-chevron-left'   ></i> Volver a Galería</button>
+    </div>
+    </div>
     
-    <label for="lineWidth">Grosor:</label>
-    <input type="range" id="lineWidth" min="1" max="20" value="2"> <input type="file" id="backgroundInput" accept="image/*">
-    
-    <button id="setBackgroundBtn">Establecer fondo</button>
-    <button id="clearBtn">Limpiar</button>
-    <button id="saveBtn">Guardar</button>
-    <button id="backBtn">Volver</button>
   </div>
 
-  <canvas id="paintCanvas" width="800" height="500"></canvas>
+  <div class="editor-container">
 
-  <script src="canvas.js"></script>
+    <aside class="toolbar">
+      
+      <ul class="tool-list">
+        <li class="active" data-tool="line" title="Línea"><i class='bx bx-minus'></i></li>
+        <li data-tool="rect" title="Rectángulo"><i class='bx bx-rectangle'></i></li>
+        <li data-tool="square" title="Cuadrado"><i class='bx bx-square'></i></li>
+        <li data-tool="circle" title="Círculo"><i class='bx bx-radio-circle'></i></li>
+        <li data-tool="ellipse" title="Elipse"><i class='bx bx-oval'></i></li>
+        <li data-tool="polygon" title="Polígono"><i class='bx bx-polygon'></i></li>
+        <li data-tool="star" title="Estrella"><i class='bx bx-star'></i></li>
+        <li data-tool="pencil" title="Lápiz"><i class='bx bx-pencil'></i></li>
+        <li data-tool="eraser" title="Borrador"><i class='bx bx-eraser'></i></li>
+      </ul>
+
+      <div class="tool-controls">
+        <label for="colorPicker">Color</label>
+        <input type="color" id="colorPicker" value="#000000" />
+        
+        <label for="lineWidth">Grosor</label>
+        <input type="range" id="lineWidth" min="1" max="20" value="2">
+        
+        <input type="file" id="backgroundInput" accept="image/*">
+        <button id="setBackgroundBtn" class="sidebar-btn">Fondo</button>
+        <button id="clearBtn" class="sidebar-btn">Limpiar</button>
+      </div>
+
+    </aside>
+
+    <canvas id="paintCanvas" width="900" height="600"></canvas>
+  
+  </div> <script src="canvas.js"></script>
 </body>
 </html>

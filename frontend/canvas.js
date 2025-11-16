@@ -26,9 +26,23 @@ if (!token) {
 const drawingId = localStorage.getItem("drawingId");
 let isNew = !drawingId;
 
-document.getElementById("tool").addEventListener("change", e => {
-  currentTool = e.target.value;
+// --- NUEVO SISTEMA PARA SELECCIONAR HERRAMIENTAS ---
+const toolButtons = document.querySelectorAll(".tool-list li");
+
+// Recorre cada botón-icono
+toolButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    // 1. Quita la clase 'active' del botón anterior
+    document.querySelector(".tool-list li.active").classList.remove("active");
+    
+    // 2. Añade la clase 'active' al botón que se hizo clic
+    button.classList.add("active");
+    
+    // 3. Actualiza la herramienta actual leyendo el 'data-tool'
+    currentTool = button.dataset.tool;
+  });
 });
+// --- FIN DEL NUEVO SISTEMA ---
 
 document.getElementById("colorPicker").addEventListener("input", e => {
   color = e.target.value;
@@ -249,24 +263,31 @@ canvas.addEventListener("touchend", e => {
 
 
 
-// Seleccionar imagen
+// 1. El botón "Fondo" AHORA SÓLO hace clic en el input oculto
 document.getElementById("setBackgroundBtn").addEventListener("click", () => {
   const fileInput = document.getElementById("backgroundInput");
+  fileInput.click();
+});
+
+// 2. El input de archivo ("change") AHORA TIENE TODA LA LÓGICA DE CARGA
+document.getElementById("backgroundInput").addEventListener("change", () => {
+  const fileInput = document.getElementById("backgroundInput");
   const file = fileInput.files[0];
+  
+  // Si el usuario presiona "cancelar", el archivo estará vacío.
+  // Simplemente salimos de la función sin hacer nada.
   if (!file) {
-    alert("Selecciona una imagen primero");
     return;
   }
 
+  // Si SÍ hay un archivo, usamos el FileReader
   const reader = new FileReader();
   reader.onload = e => {
     const img = new Image();
     img.src = e.target.result;
     img.onload = () => {
       backgroundImage = img; 
-
       ctx.clearRect(0, 0, canvas.width, canvas.height); 
-      
       canvas.style.backgroundImage = `url(${e.target.result})`;
       canvas.style.backgroundSize = "cover"; 
       canvas.style.backgroundPosition = "center";

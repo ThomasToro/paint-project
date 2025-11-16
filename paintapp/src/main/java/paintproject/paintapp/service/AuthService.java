@@ -34,6 +34,7 @@ public class AuthService {
         if (user == null || !encoder.matches(password, user.getPassword())) {
             return null; // credenciales incorrectas
         }
+        System.out.println("PASSSSS"+password);
 
         return jwtUtil.generateToken(user.getEmail());
     }
