@@ -1,0 +1,241 @@
+/* --- Variables --- */
+$primary-color: #3498db;
+$primary-dark: #2980b9;
+$hover-dark: #2c3e50;
+$bg-color: #f2f2f2;
+$text-color: #333;
+$white: #ffffff;
+$border-radius: 8px;
+
+/* --- Mixins --- */
+@mixin flex-center($justify: center, $align: center, $dir: row) {
+  display: flex;
+  flex-direction: $dir;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin box-shadow($level: 1) {
+  @if $level == 1 {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  } @else if $level == 2 {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  } @else if $level == 3 {
+    box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+  }
+}
+
+@mixin btn-base {
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+/* --- Estilos Generales --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  background: $bg-color;
+}
+
+/* --- Barra Superior --- */
+.top-bar {
+  background: $primary-color;
+  color: $white;
+  padding: 15px 30px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  @include box-shadow(1);
+
+  .top-bar-content {
+    @include flex-center(space-between, center);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 2rem;
+    
+    @media (max-width: 768px) {
+      font-size: 1.5rem;
+    }
+  }
+
+  /* Agregamos el contenedor flex para los botones */
+  .nav-buttons {
+    display: flex;
+    gap: 15px; /* Espacio entre los botones */
+    align-items: center;
+  }
+
+  .nav-buttons button {
+    @include btn-base;
+    @include flex-center(center, center);
+    gap: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 10px 20px;
+    background-color: rgba(255,255,255, 0.2); 
+    color: $white; 
+
+    &:hover {
+      background-color: #404040;
+      color: #ddd;
+      transform: translateY(-1px);
+      @include box-shadow(3);
+    }
+  }
+}
+
+/* --- Contenedor Principal --- */
+.editor-container {
+  @include flex-center(center, flex-start);
+  margin: 20px auto;
+  gap: 20px;
+  padding: 0 20px;
+  max-width: 1200px;
+
+  @media (max-width: 1050px) {
+    flex-direction: column;
+    align-items: center;
+    overflow-x: auto; 
+    justify-content: flex-start; 
+  }
+}
+
+/* --- Barra Lateral (Toolbar) --- */
+aside.toolbar {
+  width: 120px;
+  height: 600px;
+  background: $white;
+  border-radius: $border-radius;
+  padding: 15px;
+  
+  @include box-shadow(1);
+  @include flex-center(space-between, stretch, column);
+
+  @media (max-width: 1050px) {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+  }
+
+  ul.tool-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+
+    @media (max-width: 1050px) {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    li {
+      font-size: 24px;
+      color: #555;
+      padding: 8px;
+      border-radius: 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #f0f0f0;
+        color: #000;
+      }
+
+      &.active {
+        background: $primary-color;
+        color: $white;
+      }
+    }
+  }
+
+  .tool-controls {
+    @include flex-center(center, center, column);
+    gap: 15px;
+
+    @media (max-width: 1050px) {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    label {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: $text-color;
+      
+      @media (max-width: 1050px) { font-size: 1rem; }
+    }
+
+    input[type="range"] {
+      width: 100%;
+      @media (max-width: 1050px) { width: 100px; }
+    }
+  }
+}
+
+/* --- Estilos específicos de inputs --- */
+input[type="color"] {
+  width: 50px;
+  height: 50px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background: none;
+  -webkit-appearance: none;
+  appearance: none;
+
+  &::-webkit-color-swatch-wrapper { padding: 0; }
+  &::-webkit-color-swatch { 
+    border-radius: 50%; 
+    border: 2px solid #eee; 
+  }
+}
+
+#backgroundInput {
+  display: none;
+}
+
+.sidebar-btn {
+  @include btn-base;
+  width: 100%;
+  background-color: #eee;
+  color: $text-color;
+  padding: 8px 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+
+  &:hover {
+    background-color: #ddd;
+  }
+
+  @media (max-width: 1050px) {
+    width: auto;
+    padding: 8px 15px;
+    font-size: 1rem;
+  }
+}
+
+
+canvas {
+  flex-shrink: 0;
+  border: none;
+  border-radius: $border-radius;
+  background: $white;
+  cursor: crosshair;
+  @include box-shadow(2);
+}

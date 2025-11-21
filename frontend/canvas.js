@@ -12,10 +12,9 @@ let draggingBackground = false;
 let dragOffsetX = 0, dragOffsetY = 0;
 let isDrawingShape = false; 
 let snapshot = null;
-let polygonSides = 5; // <-- Usará este valor (5)
-let starPoints = 5;   // <-- Usará este valor (5)
+let polygonSides = 5; 
+let starPoints = 5;   
 let lineWidthInput = document.getElementById("lineWidth"); 
-
 
 const token = localStorage.getItem("token");
 if (!token) {
@@ -28,17 +27,10 @@ let isNew = !drawingId;
 
 // --- NUEVO SISTEMA PARA SELECCIONAR HERRAMIENTAS ---
 const toolButtons = document.querySelectorAll(".tool-list li");
-
-// Recorre cada botón-icono
 toolButtons.forEach(button => {
   button.addEventListener("click", () => {
-    // 1. Quita la clase 'active' del botón anterior
     document.querySelector(".tool-list li.active").classList.remove("active");
-    
-    // 2. Añade la clase 'active' al botón que se hizo clic
     button.classList.add("active");
-    
-    // 3. Actualiza la herramienta actual leyendo el 'data-tool'
     currentTool = button.dataset.tool;
   });
 });
@@ -48,12 +40,31 @@ document.getElementById("colorPicker").addEventListener("input", e => {
   color = e.target.value;
 });
 
+// -------------------------------------------------------------
+// --- LÓGICA DE COORDENADAS (LA SOLUCIÓN) ---
+// -------------------------------------------------------------
+
+/**
+ * Esta función calcula la posición exacta del mouse dentro del canvas,
+ * ajustando la escala si el CSS ha redimensionado el elemento.
+ */
+function getMousePos(evt) {
+  const rect = canvas.getBoundingClientRect();
+  
+  // Calculamos la relación entre píxeles internos y píxeles en pantalla
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+
+  return {
+    x: (evt.clientX - rect.left) * scaleX,
+    y: (evt.clientY - rect.top) * scaleY
+  };
+}
 
 // -------------------------------------------------------------
-// ---INICIO LÓGICA DE DIBUJO ---
+// --- FUNCIONES AUXILIARES Y DE DIBUJO ---
 // -------------------------------------------------------------
 
-/* FUNCIONES AUXILIARES */
 function getLineWidth() {
   if (lineWidthInput) return Number(lineWidthInput.value) || 2;
   return 2; 
@@ -72,7 +83,6 @@ function restoreSnapshot() {
   if (snapshot) ctx.putImageData(snapshot, 0, 0);
 }
 
-/* FUNCIONES DE DIBUJO DE FORMAS */
 function drawLine(x1, y1, x2, y2) {
   ctx.beginPath();
   ctx.moveTo(x1, y1);
@@ -133,12 +143,15 @@ function drawStar(cx, cy, outer, inner, points) {
   ctx.stroke();
 }
 
-/* EVENT HANDLERS  */
+// -------------------------------------------------------------
+// --- EVENT HANDLERS (MODIFICADOS) ---
+// -------------------------------------------------------------
+
 canvas.addEventListener("mousedown", e => {
-  // Se usa getBoundingClientRect para precisión
-  const rect = canvas.getBoundingClientRect();
-  startX = Math.round(e.clientX - rect.left);
-  startY = Math.round(e.clientY - rect.top);
+  // USA LA NUEVA FUNCIÓN AQUÍ
+  const pos = getMousePos(e);
+  startX = pos.x;
+  startY = pos.y;
 
   // Configuraciones comunes
   ctx.strokeStyle = color; 
@@ -162,14 +175,13 @@ canvas.addEventListener("mousedown", e => {
   // para shapes: tomar snapshot para preview
   isDrawingShape = true;
   takeSnapshot();
-
-
 });
 
 canvas.addEventListener("mousemove", e => {
-  const rect = canvas.getBoundingClientRect();
-  const mx = Math.round(e.clientX - rect.left);
-  const my = Math.round(e.clientY - rect.top);
+  // USA LA NUEVA FUNCIÓN AQUÍ TAMBIÉN
+  const pos = getMousePos(e);
+  const mx = pos.x;
+  const my = pos.y;
 
   if (painting) {
     // pencil / eraser
@@ -203,12 +215,12 @@ canvas.addEventListener("mousemove", e => {
       break;
     case "polygon":
       const r = Math.sqrt((mx - startX)**2 + (my - startY)**2);
-      drawPolygon(startX, startY, r, polygonSides); // <-- Usa 'polygonSides' (5)
+      drawPolygon(startX, startY, r, polygonSides); 
       break;
     case "star":
       const outer = Math.sqrt((mx - startX)**2 + (my - startY)**2);
       const inner = outer * 0.5; 
-      drawStar(startX, startY, outer, inner, starPoints); // <-- Usa 'starPoints' (5)
+      drawStar(startX, startY, outer, inner, starPoints); 
       break;
     default:
       break;
@@ -231,14 +243,15 @@ canvas.addEventListener("mouseup", e => {
   snapshot = null; 
 });
 
-/* SOPORTE TÁCTIL  */
+/* SOPORTE TÁCTIL (No requiere cambios grandes, ya que simula mousedown/move) */
 function touchToMouse(event) {
   if (!event.touches || event.touches.length === 0) return;
   const t = event.touches[0];
-  const rect = canvas.getBoundingClientRect();
+  // Enviamos las coordenadas crudas, los listeners de arriba harán la corrección de escala
   const simulated = { clientX: t.clientX, clientY: t.clientY };
   return simulated;
 }
+
 canvas.addEventListener("touchstart", e => {
   const s = touchToMouse(e);
   if (s) canvas.dispatchEvent(new MouseEvent("mousedown", {clientX: s.clientX, clientY: s.clientY}));
@@ -258,29 +271,20 @@ canvas.addEventListener("touchend", e => {
 
 
 // -------------------------------------------------------------
-// --- FIN LÓGICA DE DIBUJO ---
+// --- GESTIÓN DE IMAGEN Y GUARDADO ---
 // -------------------------------------------------------------
 
-
-
-// 1. El botón "Fondo" AHORA SÓLO hace clic en el input oculto
 document.getElementById("setBackgroundBtn").addEventListener("click", () => {
   const fileInput = document.getElementById("backgroundInput");
   fileInput.click();
 });
 
-// 2. El input de archivo ("change") AHORA TIENE TODA LA LÓGICA DE CARGA
 document.getElementById("backgroundInput").addEventListener("change", () => {
   const fileInput = document.getElementById("backgroundInput");
   const file = fileInput.files[0];
   
-  // Si el usuario presiona "cancelar", el archivo estará vacío.
-  // Simplemente salimos de la función sin hacer nada.
-  if (!file) {
-    return;
-  }
+  if (!file) return;
 
-  // Si SÍ hay un archivo, usamos el FileReader
   const reader = new FileReader();
   reader.onload = e => {
     const img = new Image();
@@ -296,21 +300,6 @@ document.getElementById("backgroundInput").addEventListener("change", () => {
   reader.readAsDataURL(file);
 });
 
-// Tu función redrawCanvas (parece no usarse, pero se mantiene)
-function redrawCanvas() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  if (backgroundImage) {
-    ctx.save();
-    ctx.translate(bgX, bgY);
-    ctx.scale(bgScale, bgScale);
-    ctx.drawImage(backgroundImage, 0, 0);
-    ctx.restore();
-  }
-}
-
-
-// Limpiar lienzo
 document.getElementById("clearBtn").addEventListener("click", () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   snapshot = null; 
@@ -319,7 +308,6 @@ document.getElementById("clearBtn").addEventListener("click", () => {
   backgroundImage = null;
 });
 
-// Guardar o actualizar dibujo
 document.getElementById("saveBtn").addEventListener("click", () => {
   const imageData = canvas.toDataURL("image/png");
 
@@ -334,7 +322,6 @@ document.getElementById("saveBtn").addEventListener("click", () => {
     : `http://localhost:8080/api/dibujos/${drawingId}`;
 
   const method = isNew ? "POST" : "PUT";
-  
   const bgData = backgroundImage ? backgroundImage.src : null;
 
   fetch(url, {
@@ -360,12 +347,10 @@ document.getElementById("saveBtn").addEventListener("click", () => {
     .catch(err => console.error(err));
 });
 
-// Volver a la galería
 document.getElementById("backBtn").addEventListener("click", () => {
   window.location.href = "galeria.html";
 });
 
-// Si existe un dibujo, cargarlo al abrir
 if (!isNew) {
   fetch(`http://localhost:8080/api/dibujos/${drawingId}`, {
     headers: {
@@ -374,7 +359,6 @@ if (!isNew) {
   })
     .then(res => res.json())
     .then(dibujo => {
-    
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       canvas.style.backgroundImage = "none";
       backgroundImage = null;

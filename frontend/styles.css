@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,102 +8,120 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-  background-color: #f0f2f5; 
+  background-color: #f0f2f5;
   color: #333;
-  
+  /* Centrado vertical y horizontal */
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 20px; /*spacio para que no se pegue en móviles*/
+  padding: 20px;
 }
 
-/* --- La Tarjeta del Formulario --- */
+/* --- Tarjeta del Formulario --- */
 .form-registration {
   background: #ffffff;
-  padding: 2.5rem; /* Espacio interno generoso */
-  border-radius: 12px; /* Bordes redondeados */
-  
-  /* ¡La sombra! */
+  padding: 2.5rem;
+  border-radius: 12px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-  
   width: 100%;
-  max-width: 400px; /* Ancho máximo del formulario */
+  max-width: 400px;
+  /* Media Query: Reducir padding en móviles */
 }
-
-/* --- Grupos de Formulario (Label + Input) --- */
-.form-name,
-.form-email,
-.form-password {
+@media (max-width: 480px) {
+  .form-registration {
+    padding: 1.5rem;
+  }
+}
+.form-registration {
+  /* Agrupación de campos (Nombre, Email, Password) */
+}
+.form-registration .form-name,
+.form-registration .form-email,
+.form-registration .form-password {
   display: flex;
-  flex-direction: column; /* Pone el label encima del input */
-  margin-bottom: 1.5rem; /* Espacio entre cada campo */
+  flex-direction: column;
+  margin-bottom: 1.5rem;
 }
-
-/* --- Etiquetas (Labels) --- */
-label {
+.form-registration .form-name label,
+.form-registration .form-email label,
+.form-registration .form-password label {
   font-weight: 600;
   color: #555;
-  margin-bottom: 0.5rem; /* Espacio entre el label y el input */
+  margin-bottom: 0.5rem;
 }
-
-/* --- Campos de Entrada (Inputs) --- */
-input[type="text"],
-input[type="email"],
-input[type="password"] {
+.form-registration .form-name,
+.form-registration .form-email,
+.form-registration .form-password {
+  /* Estilos para los inputs de texto */
+}
+.form-registration .form-name input[type=text],
+.form-registration .form-name input[type=email],
+.form-registration .form-name input[type=password],
+.form-registration .form-email input[type=text],
+.form-registration .form-email input[type=email],
+.form-registration .form-email input[type=password],
+.form-registration .form-password input[type=text],
+.form-registration .form-password input[type=email],
+.form-registration .form-password input[type=password] {
   width: 100%;
   padding: 0.8rem 1rem;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 1rem;
-  transition: border-color 0.2s, box-shadow 0.2s; /* Transición suave */
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
-
-/* Efecto al hacer clic (focus) en un input */
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus {
-  outline: none; /* Quita el borde azul feo de Chrome */
-  border-color: #007bff; /* Borde de color azul */
-  box-shadow: 0 0 8px rgba(0, 123, 255, 0.25); /* Sombra/aura azul */
+.form-registration .form-name input[type=text]:focus,
+.form-registration .form-name input[type=email]:focus,
+.form-registration .form-name input[type=password]:focus,
+.form-registration .form-email input[type=text]:focus,
+.form-registration .form-email input[type=email]:focus,
+.form-registration .form-email input[type=password]:focus,
+.form-registration .form-password input[type=text]:focus,
+.form-registration .form-password input[type=email]:focus,
+.form-registration .form-password input[type=password]:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
 }
-
-/* --- Botón de Envío (Submit) --- */
-.form-submit input[type="submit"] {
+.form-registration {
+  /* Botón de Enviar */
+}
+.form-registration .form-submit input[type=submit] {
   width: 100%;
   padding: 0.9rem;
   border: none;
   border-radius: 8px;
-  background-color: #007bff; /* Color primario */
+  background-color: #007bff;
   color: white;
   font-size: 1.1rem;
   font-weight: 700;
   cursor: pointer;
   transition: background-color 0.2s, transform 0.1s;
 }
-
-.form-submit input[type="submit"]:hover {
-  background-color: #0056b3; /* Un azul más oscuro al pasar el mouse */
+.form-registration .form-submit input[type=submit]:hover {
+  background-color: #0056b3;
 }
-
-.form-submit input[type="submit"]:active {
-  transform: scale(0.98); /* Efecto de clic */
+.form-registration .form-submit input[type=submit]:active {
+  transform: scale(0.98);
 }
-
-/* --- Enlace de "Iniciar Sesión" --- */
-.login {
+.form-registration {
+  /* Pie de página (Iniciar Sesión) */
+}
+.form-registration .login {
   text-align: center;
   margin-top: 1.5rem;
   font-size: 0.9rem;
-  color: #666;
+  /* Usamos la función moderna para aclarar el color */
+  color: #666666;
 }
-
-.login a {
-  color: #007bff; /* Mismo color que el botón */
+.form-registration .login a {
+  color: #007bff;
   text-decoration: none;
   font-weight: 600;
 }
-
-.login a:hover {
+.form-registration .login a:hover {
   text-decoration: underline;
 }
+
+/*# sourceMappingURL=styles.css.map */

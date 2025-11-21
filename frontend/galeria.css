@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,44 +8,63 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-  background: #f0f2f5; /*Un gris de fondo más suave */
+  background: #f0f2f5;
   color: #333;
 }
 
-
+/* --- Header --- */
 .gallery-header {
   background: #3498db;
   padding: 15px 30px;
   width: 100%;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  position: sticky; /*Se queda fijo al hacer scroll */
+  position: sticky;
   top: 0;
   z-index: 100;
 }
-
-.header-content {
+.gallery-header .header-content {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px; /*Centra el contenido */
+  max-width: 1200px;
   margin: 0 auto;
+  /* Media Query: En móviles, apilamos título y botones */
 }
-
+@media (max-width: 768px) {
+  .gallery-header .header-content {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
 .gallery-header h2 {
   margin: 0;
   font-size: 2rem;
   color: white;
 }
-
-.header-buttons {
+@media (max-width: 768px) {
+  .gallery-header h2 {
+    font-size: 1.6rem;
+  }
+}
+.gallery-header .header-buttons {
   display: flex;
   gap: 15px;
+  /* En móviles muy pequeños, botones uno encima del otro */
+}
+@media (max-width: 480px) {
+  .gallery-header .header-buttons {
+    width: 100%;
+    flex-direction: column;
+  }
 }
 
+/* --- Botones Generales --- */
 button {
-  display: inline-flex; /* Permite alinear iconos y texto */
+  display: inline-flex;
   align-items: center;
-  gap: 8px; /* Espacio entre icono y texto */
+  justify-content: center; /* Centrado interno del botón */
+  gap: 8px;
   font-family: inherit;
   font-weight: 600;
   font-size: 14px;
@@ -55,110 +76,118 @@ button {
   color: black;
 }
 
-/*Boton Primario Nuevo Dibujo */
+/* Botón Primario (Nuevo Dibujo) */
 #newDrawingBtn {
   background-color: white;
   color: black;
 }
-
 #newDrawingBtn:hover {
   background-color: #404040;
   color: white;
-  transform: translateY(-1px); /* Efecto de "levantar" */
+  transform: translateY(-1px);
   box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
 }
 
-/*Boton Secundario Cerrar Sesión */
+/* Botón Secundario (Cerrar Sesión) */
 .btn-secondary {
   background-color: #ecf0f1;
   color: #7f8c8d;
-  transform: translateY(-1px); /* Efecto de "levantar" */
   box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+  transform: translateY(-1px);
 }
-
 .btn-secondary:hover {
   background-color: #404040;
   color: #ddd;
 }
 
+/* --- Contenedor Principal --- */
 .gallery-container {
-  padding: 30px; /* El padding que estaba en el body, ahora está aquí */
+  padding: 30px;
   max-width: 1200px;
   margin: 0 auto;
+  /* Ajuste para móviles: menos padding para aprovechar la pantalla */
+}
+@media (max-width: 600px) {
+  .gallery-container {
+    padding: 15px;
+  }
 }
 
 #drawingsContainer {
   display: grid;
+  /* Grid inteligente: crea columnas automáticas pero con mínimo 280px */
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 25px; /* Un poco más de espacio */
+  gap: 25px;
+  /* Ajuste para móviles pequeños: permitir que las tarjetas sean más estrechas si es necesario */
+}
+@media (max-width: 480px) {
+  #drawingsContainer {
+    grid-template-columns: 1fr; /* Una sola columna */
+  }
 }
 
-/*Tarjetas de Dibujo */
+/* --- Tarjetas de Dibujo --- */
 .drawing-card {
-  background: #fff;
+  background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  overflow: hidden; /*Clave para que el preview no se salga */
-  
-  /*Usamos Flex para ordenar el contenido verticalmente */
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
-
 .drawing-card:hover {
-  transform: translateY(-5px); /*Efecto de flotar  pronunciado*/
+  transform: translateY(-5px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
-
-/*Título de la Tarjeta*/
-.drawing-title {
+.drawing-card {
+  /* Título */
+}
+.drawing-card .drawing-title {
   font-weight: 600;
   font-size: 1.8rem;
   color: #333;
   text-align: center;
-  padding: 15px 15px 10px 15px; /* Espaciado interno */
+  padding: 15px 15px 10px 15px;
 }
-
-/*Previsualización del Dibujo*/
-.drawing-preview {
+.drawing-card {
+  /* Preview */
+}
+.drawing-card .drawing-preview {
   width: 100%;
-  height: 200px; /* Un poco más alto */
+  height: 200px;
   background: #eee;
   position: relative;
   overflow: hidden;
-  
-  /* Un borde sutil que lo separa del título */
   border-top: 1px solid #f0f0f0;
   border-bottom: 1px solid #f0f0f0;
-
-  /* Mantenemos tus reglas de fondo */
   background-size: cover;
   background-position: center;
 }
-
-.drawing-preview-img {
+.drawing-card .drawing-preview .drawing-preview-img {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
 }
-
-/* Botón de Eliminar*/
-.delete-btn {
+.drawing-card {
+  /* Botón Eliminar */
+}
+.drawing-card .delete-btn {
   background-color: #f6f6f6;
   color: #e74c3c;
-  width: 100%; /* Ocupa todo el ancho */
-  border-radius: 0 0 12px 12px; /* Redondeado solo abajo */
+  width: 100%;
+  border-radius: 0 0 12px 12px;
   padding: 12px 20px;
   font-size: 14px;
   font-weight: 600;
-  margin-top: auto; /* Se empuja al fondo de la tarjeta (si flex lo permite) */
+  margin-top: auto;
 }
-
-.delete-btn:hover {
+.drawing-card .delete-btn:hover {
   background-color: #e74c3c;
   color: white;
 }
+
+/*# sourceMappingURL=galeria.css.map */
